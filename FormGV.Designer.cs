@@ -60,7 +60,7 @@
             buttonDX.FlatAppearance.BorderSize = 0;
             buttonDX.FlatStyle = FlatStyle.Flat;
             buttonDX.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonDX.ForeColor = SystemColors.ControlText;
+            buttonDX.ForeColor = Color.White;
             buttonDX.Location = new Point(0, 811);
             buttonDX.Name = "buttonDX";
             buttonDX.Size = new Size(200, 50);
@@ -73,9 +73,11 @@
             // 
             pictureBoxLogo.BackColor = SystemColors.ActiveBorder;
             pictureBoxLogo.Dock = DockStyle.Top;
+            pictureBoxLogo.Image = Properties.Resources.Artboard_7_80_1;
             pictureBoxLogo.Location = new Point(0, 0);
             pictureBoxLogo.Name = "pictureBoxLogo";
             pictureBoxLogo.Size = new Size(200, 200);
+            pictureBoxLogo.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxLogo.TabIndex = 1;
             pictureBoxLogo.TabStop = false;
             // 

@@ -29,24 +29,38 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            pictureBoxLogo = new PictureBox();
             buttonLogin = new Button();
             label1 = new Label();
             label2 = new Label();
             textBoxUsername = new TextBox();
             textBoxPassword = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ButtonHighlight;
+            panel1.Controls.Add(pictureBoxLogo);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(344, 391);
+            panel1.Size = new Size(350, 391);
             panel1.TabIndex = 0;
+            // 
+            // pictureBoxLogo
+            // 
+            pictureBoxLogo.Image = Properties.Resources.Artboard_7_80_1;
+            pictureBoxLogo.Location = new Point(0, 29);
+            pictureBoxLogo.Name = "pictureBoxLogo";
+            pictureBoxLogo.Size = new Size(350, 350);
+            pictureBoxLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxLogo.TabIndex = 0;
+            pictureBoxLogo.TabStop = false;
             // 
             // buttonLogin
             // 
@@ -117,6 +131,7 @@
             AcceptButton = buttonLogin;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Highlight;
             ClientSize = new Size(771, 391);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(buttonLogin);
@@ -124,6 +139,8 @@
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4);
             Name = "FormLogin";
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ResumeLayout(false);
@@ -138,5 +155,6 @@
         private TextBox textBoxUsername;
         private TextBox textBoxPassword;
         private TableLayoutPanel tableLayoutPanel1;
+        private PictureBox pictureBoxLogo;
     }
 }

@@ -349,7 +349,6 @@ namespace BTL
                                 ("@gv", maGV));
         }
 
-
         public DataTable GetSinhVienByLop(string maLop)
         {
             const string sql = @"SELECT MaSV, TenSV, GioiTinh, NgaySinh FROM SinhVien WHERE MaLop = @lop;";

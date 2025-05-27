@@ -209,27 +209,27 @@
             label1.AutoSize = true;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(84, 21);
+            label1.Size = new Size(114, 21);
             label1.TabIndex = 0;
-            label1.Text = "Username:";
+            label1.Text = "Tên đăng nhập:";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(3, 57);
             label3.Name = "label3";
-            label3.Size = new Size(79, 21);
+            label3.Size = new Size(75, 21);
             label3.TabIndex = 1;
-            label3.Text = "Password:";
+            label3.Text = "Mật khẩu";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(3, 114);
             label5.Name = "label5";
-            label5.Size = new Size(44, 21);
+            label5.Size = new Size(59, 21);
             label5.TabIndex = 2;
-            label5.Text = "Role:";
+            label5.Text = "Quyền:";
             // 
             // label6
             // 

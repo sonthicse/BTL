@@ -56,3 +56,4 @@ C:\Users\duong\OneDrive\ANHTTT59(CLC)\BTL\obj\Debug\net9.0-windows\BTL.sourcelin
 C:\Users\duong\OneDrive\ANHTTT59(CLC)\BTL\obj\Debug\net9.0-windows\BTL.FormThemMH.resources
 C:\Users\duong\OneDrive\ANHTTT59(CLC)\BTL\obj\Debug\net9.0-windows\BTL.UserControlCD.resources
 C:\Users\duong\OneDrive\ANHTTT59(CLC)\BTL\obj\Debug\net9.0-windows\BTL.UserControlDiem.resources
+C:\Users\duong\OneDrive\ANHTTT59(CLC)\BTL\obj\Debug\net9.0-windows\BTL.Properties.Resources.resources

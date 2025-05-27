@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\usercontroldiem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:usercontroldiem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\usercontroltk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:usercontroltk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\usercontroldiem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:usercontroldiem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\usercontrolmh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:usercontrolmh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\formgv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:formgv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\usercontroltc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:usercontroltc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|c:\\users\\duong\\onedrive\\anhttt59(clc)\\btl\\formlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{96F42B19-9C83-4AEE-AE72-4A0E81686AC8}|BTL.csproj|solutionrelative:formlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,26 +47,74 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UserControlDiem.cs",
-              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlDiem.cs",
-              "RelativeDocumentMoniker": "UserControlDiem.cs",
-              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlDiem.cs",
-              "RelativeToolTip": "UserControlDiem.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAmwB8AAAAxAAAAAAAAAA==",
+              "Title": "UserControlTK.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlTK.cs",
+              "RelativeDocumentMoniker": "UserControlTK.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlTK.cs [Design]",
+              "RelativeToolTip": "UserControlTK.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T13:03:01.322Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-27T16:22:06.629Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FormGV.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormGV.cs",
+              "RelativeDocumentMoniker": "FormGV.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormGV.cs [Design]",
+              "RelativeToolTip": "FormGV.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T16:20:00.173Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormAdmin.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "FormAdmin.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormAdmin.cs [Design]",
+              "RelativeToolTip": "FormAdmin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T16:19:17.314Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserControlDiem.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlDiem.cs",
-              "RelativeDocumentMoniker": "UserControlDiem.cs",
-              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlDiem.cs [Design]",
-              "RelativeToolTip": "UserControlDiem.cs [Design]",
+              "Title": "UserControlMH.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlMH.cs",
+              "RelativeDocumentMoniker": "UserControlMH.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlMH.cs [Design]",
+              "RelativeToolTip": "UserControlMH.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T13:02:59.345Z"
+              "WhenOpened": "2025-05-27T16:18:17.418Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserControlTC.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlTC.cs",
+              "RelativeDocumentMoniker": "UserControlTC.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\UserControlTC.cs [Design]",
+              "RelativeToolTip": "UserControlTC.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T16:17:40.361Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FormLogin.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormLogin.cs",
+              "RelativeDocumentMoniker": "FormLogin.cs",
+              "ToolTip": "C:\\Users\\duong\\OneDrive\\ANHTTT59(CLC)\\BTL\\FormLogin.cs [Design]",
+              "RelativeToolTip": "FormLogin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T16:15:22.842Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }
