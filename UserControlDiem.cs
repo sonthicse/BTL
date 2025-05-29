@@ -12,10 +12,8 @@ namespace BTL
         private DataTable _dtSV = new();
         private DataView _viewSV;
 
-        // Sẽ nhận vào Mã GV từ Form cha (giảng viên đang đăng nhập)
         public string _maGV = "";
 
-        // Lưu mapping Lớp -> Mã Môn (để truy vấn điểm đúng môn của lớp đó)
         private readonly Dictionary<string, string> _lop_maMH = new();
 
         public UserControlDiem()
@@ -24,31 +22,25 @@ namespace BTL
             Load += UC_Load;
         }
 
-        // Khởi tạo UserControlDiem
         private void UC_Load(object? sender, EventArgs e)
         {
-            // 1. Load danh sách lớp mà giảng viên này dạy
             var dtLop = _db.GetLopByGiangVien(_maGV);
             comboBoxLop.DisplayMember = "TenLop";
             comboBoxLop.ValueMember = "MaLop";
             comboBoxLop.DataSource = dtLop;
-            // Lưu mapping Lớp → Môn
             foreach (DataRow r in dtLop.Rows)
                 _lop_maMH[r["MaLop"].ToString()] = r["MaMH"].ToString();
             comboBoxLop.SelectedIndexChanged += comboBoxLop_SelectedIndexChanged;
 
-            // 2. Thiết lập chặn ký tự và làm tròn điểm khi rời ô nhập
             foreach (var tb in new[] { textBoxDiemCC, textBoxDiemTX, textBoxDiemTHI })
             {
                 tb.KeyPress += OnlyNumber_KeyPress;
                 tb.Leave += Diem_Leave;
             }
 
-            // 3. Các sự kiện khác
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
             textBoxSearch.TextChanged += buttonSearch_Click;
 
-            // 4. Kích hoạt ban đầu (nếu có lớp)
             if (comboBoxLop.Items.Count > 0)
                 comboBoxLop_SelectedIndexChanged(this, EventArgs.Empty);
         }
@@ -83,24 +75,24 @@ namespace BTL
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             dataGridView.Columns["MaSV"].HeaderText = "Mã SV";
-            dataGridView.Columns["MaSV"].FillWeight = 10; // 10% width
+            dataGridView.Columns["MaSV"].FillWeight = 10;
             dataGridView.Columns["TenSV"].HeaderText = "Họ và Tên";
-            dataGridView.Columns["TenSV"].FillWeight = 25; // 25% width
+            dataGridView.Columns["TenSV"].FillWeight = 25;   
             dataGridView.Columns["DiaChi"].HeaderText = "Địa chỉ";
-            dataGridView.Columns["DiaChi"].FillWeight = 25; // 25% width
+            dataGridView.Columns["DiaChi"].FillWeight = 25;   
             dataGridView.Columns["NgaySinh"].HeaderText = "Ngày Sinh";
-            dataGridView.Columns["NgaySinh"].FillWeight = 10; // 10% width
+            dataGridView.Columns["NgaySinh"].FillWeight = 10;   
             dataGridView.Columns["NgaySinh"].DefaultCellStyle.Format = "dd/MM/yyyy";
             dataGridView.Columns["GioiTinh"].HeaderText = "Giới Tính";
-            dataGridView.Columns["GioiTinh"].FillWeight = 10; // 10% width
+            dataGridView.Columns["GioiTinh"].FillWeight = 10;   
             dataGridView.Columns["DiemCC"].HeaderText = "Điểm CC";
-            dataGridView.Columns["DiemCC"].FillWeight = 5; // 5% width
+            dataGridView.Columns["DiemCC"].FillWeight = 5;   
             dataGridView.Columns["DiemTX"].HeaderText = "Điểm TX";
-            dataGridView.Columns["DiemTX"].FillWeight = 5; // 5% width
+            dataGridView.Columns["DiemTX"].FillWeight = 5;   
             dataGridView.Columns["DiemTHI"].HeaderText = "Điểm Thi";
-            dataGridView.Columns["DiemTHI"].FillWeight = 5; // 5% width
+            dataGridView.Columns["DiemTHI"].FillWeight = 5;   
             dataGridView.Columns["DiemHP"].HeaderText = "Điểm HP";
-            dataGridView.Columns["DiemHP"].FillWeight = 5; // 5% width
+            dataGridView.Columns["DiemHP"].FillWeight = 5;   
 
             if (dataGridView.Rows.Count > 0)
                 dataGridView_SelectionChanged(null!, EventArgs.Empty);
@@ -126,9 +118,7 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewSV.RowFilter = string.IsNullOrEmpty(kw)
-                ? ""
-                : $"MaSV LIKE '%{kw}%' OR TenSV LIKE '%{kw}%'";
+            _viewSV.RowFilter = string.IsNullOrEmpty(kw)? "": $"MaSV LIKE '%{kw}%' OR TenSV LIKE '%{kw}%'";
         }
 
         private void ToggleEdit(bool enable)
@@ -153,28 +143,20 @@ namespace BTL
 
         private void buttonXacNhan_Click(object sender, EventArgs e)
         {
-            // 1. Lấy MaSV, MaMH...
             var maSV = textBoxMaSV.Text.Trim();
             var maMH = _lop_maMH[comboBoxLop.SelectedValue.ToString()];
 
-            // 2. Parse các điểm với TryParse
             if (!float.TryParse(textBoxDiemCC.Text, out float diemCC) ||
                 !float.TryParse(textBoxDiemTX.Text, out float diemTX) ||
                 !float.TryParse(textBoxDiemTHI.Text, out float diemTHI))
             {
-                MessageBox.Show(
-                    "Vui lòng nhập số hợp lệ cho tất cả các ô điểm.",
-                    "Lỗi định dạng",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                return; // dừng lại, không lưu
+                MessageBox.Show("Vui lòng nhập số hợp lệ cho tất cả các ô điểm.", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;     
             }
 
-            // 3. Tính toán Điểm HP
-            float diemHP = (float)Math.Round((diemCC * 0.1f) + (diemTX * 0.3f) + (diemTHI * 0.6f), 1); // Làm tròn đến 1 chữ số thập phân
+            float diemHP = (float)Math.Round((diemCC * 0.1f) + (diemTX * 0.3f) + (diemTHI * 0.6f), 1);         
             textBoxDiemHP.Text = diemHP.ToString("0.0");
 
-            // 4. Tạo đối tượng Diem
             var d = new Diem
             {
                 MaSV = maSV,
@@ -185,20 +167,10 @@ namespace BTL
                 DiemHP = diemHP
             };
 
-            // 5. Upsert như trước
             bool existed = _db.Exist<Diem>(d.MaSV, d.MaMH);
-            bool ok = existed
-                           ? _db.UpdateDiem(d)
-                           : _db.Insert<Diem>(d);
+            bool ok = existed ? _db.UpdateDiem(d) : _db.Insert<Diem>(d); 
+            MessageBox.Show(ok ? "Lưu điểm thành công!" : "Lỗi khi lưu điểm.", "Thông báo", MessageBoxButtons.OK, ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
-            // 6. Thông báo kết quả
-            MessageBox.Show(
-                ok ? "Lưu điểm thành công!" : "Lỗi khi lưu điểm.",
-                "Thông báo",
-                MessageBoxButtons.OK,
-                ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-            // 7. Reload và tắt edit mode
             comboBoxLop_SelectedIndexChanged(this, EventArgs.Empty);
             ToggleEdit(false);
         }

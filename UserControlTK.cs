@@ -44,9 +44,7 @@ namespace BTL
             dataGridView.Columns["MaGV"].Visible = false;
             dataGridView.Columns["MaKhoa"].Visible = false;
 
-            // Tự động co giãn cột
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            // Tuỳ chỉnh tỉ lệ mỗi cột
             dataGridView.Columns["Username"].FillWeight = 25;
             dataGridView.Columns["Password"].FillWeight = 25;
             dataGridView.Columns["Role"].FillWeight = 20;
@@ -66,11 +64,9 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewTK.RowFilter = string.IsNullOrEmpty(kw) ? "" :
-                $"Username LIKE '%{kw}%' OR Role LIKE '%{kw}%'";
+            _viewTK.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"Username LIKE '%{kw}%' OR Role LIKE '%{kw}%'";
         }
 
-        // ----------------------- CRUD buttons --------------------
         private void buttonThem_Click(object? sender, EventArgs e)
         {
             _mode = Mode.Add;
@@ -81,11 +77,8 @@ namespace BTL
         private void buttonDMK_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-
-            // Chuyển chế độ đổi mật khẩu
             _mode = Mode.ChangePass;
 
-            // 1) Dùng ToggleEdit để tắt grid, bật confirm/hủy, ẩn các nút thêm/xóa/đổi mật khẩu
             ToggleEdit(true);
         }
 
@@ -103,42 +96,27 @@ namespace BTL
         {
             if (dataGridView.CurrentRow == null) return;
 
-            // 1. Lấy username (trim khoảng trắng)
             string user = textBox1.Text.Trim();
 
-            // 2. Hỏi xác nhận
-            if (MessageBox.Show($"Xoá tài khoản \"{user}\"?",
-                                "Xác nhận",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Warning)
-                != DialogResult.Yes)
+            if (MessageBox.Show($"Xoá tài khoản \"{user}\"?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
             }
 
-            // 3. Gọi generic Delete<TaiKhoan> và bắt kết quả
             bool ok = _db.Delete<TaiKhoan>(user);
 
-            // 4. Thông báo kết quả và load lại grid
             if (ok)
             {
-                MessageBox.Show("Xóa tài khoản thành công!",
-                                "Thành công",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                MessageBox.Show("Xóa tài khoản thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Không xóa được tài khoản. Vui lòng kiểm tra lại.",
-                                "Lỗi",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                MessageBox.Show("Không xóa được tài khoản. Vui lòng kiểm tra lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             LoadGrid();
         }
 
 
-        // ----------------------- helper ---------------------------
         private void ToggleEdit(bool enable)
         {
             dataGridView.Enabled = !enable;

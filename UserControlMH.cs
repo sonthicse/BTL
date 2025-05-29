@@ -21,16 +21,13 @@ namespace BTL
 
         private void UserControlMH_Load(object? sender, EventArgs e)
         {
-            // -- Khoa combobox
             comboBoxKhoa.DisplayMember = "TenKhoa";
             comboBoxKhoa.ValueMember = "MaKhoa";
             comboBoxKhoa.DataSource = _db.GetAll<Khoa>();
 
-            // -- MonHoc grid
             _dtMH = _db.GetAll<MonHoc>();
             _viewMH = _dtMH.DefaultView;
             dataGridView.DataSource = _viewMH;
-            // Đổi tiêu đề cột & Ẩn cột
             dataGridView.Columns["MaMH"].HeaderText = "Mã môn học";
             dataGridView.Columns["TenMH"].HeaderText = "Tên môn học";
             dataGridView.Columns["TinChi"].HeaderText = "Tín chỉ";
@@ -38,7 +35,6 @@ namespace BTL
             if (dataGridView.Columns.Contains("MaKhoa"))
                 dataGridView.Columns["MaKhoa"].Visible = false;
 
-            // AUTO-SIZE & tỉ lệ FILL
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.Columns["MaMH"].FillWeight = 15;
             dataGridView.Columns["TenMH"].FillWeight = 45;
@@ -49,7 +45,6 @@ namespace BTL
             dataGridView.CurrentCellChanged += DataGridView_SelectionChanged;
             dataGridView.RowEnter += DataGridView_SelectionChanged;
 
-            // Search
             textBoxSearch.TextChanged += buttonSearch_Click;
 
             if (dataGridView.Rows.Count > 0)
@@ -63,16 +58,13 @@ namespace BTL
 
             var row = ((DataRowView)dataGridView.CurrentRow.DataBoundItem).Row;
 
-            // Gán thông tin môn học lên các TextBox
             textBoxMaMH.Text = row["MaMH"].ToString();
             textBoxTenMH.Text = row["TenMH"].ToString();
             textBoxTC.Text = row["TinChi"].ToString();
             comboBoxKhoa.SelectedValue = row["MaKhoa"]?.ToString() ?? string.Empty;
 
-            // Lấy danh sách giảng viên theo mã môn
             var dt = _db.GetGiangVienByMon(row["MaMH"].ToString());
 
-            // Xóa cột cũ và bind lại DataGridView giảng viên
             dataGridViewGV.SuspendLayout();
             dataGridViewGV.Columns.Clear();
             dataGridViewGV.AutoGenerateColumns = true;
@@ -80,7 +72,6 @@ namespace BTL
             dataGridViewGV.ResumeLayout();
             dataGridViewGV.Refresh();
 
-            // Tùy chỉnh tiêu đề cột và kích thước
             if (dataGridViewGV.Columns.Contains("MaGV"))
                 dataGridViewGV.Columns["MaGV"].HeaderText = "Mã giảng viên";
             if (dataGridViewGV.Columns.Contains("TenGV"))
@@ -96,9 +87,7 @@ namespace BTL
         private void buttonSearch_Click(object? s, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewMH.RowFilter = string.IsNullOrEmpty(kw)
-                ? string.Empty
-                : $"MaMH LIKE '%{kw}%' OR TenMH LIKE '%{kw}%'";
+            _viewMH.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaMH LIKE '%{kw}%' OR TenMH LIKE '%{kw}%'";
         }
 
         private void ToggleEdit(bool editing)
@@ -118,8 +107,6 @@ namespace BTL
             textBoxTC.Clear();
             comboBoxKhoa.SelectedIndex = 0;
         }
-
-        // === NÚT THÊM/SỬA/HỦY/XÓA/XÁC NHẬN ===
 
         private void buttonThem_Click(object? s, EventArgs e)
         {
@@ -146,8 +133,7 @@ namespace BTL
         {
             if (dataGridView.CurrentRow == null) return;
             string ma = textBoxMaMH.Text;
-            if (MessageBox.Show($"Xoá môn {ma}?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Xoá môn {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _db.Delete<MonHoc>(ma);
                 LoadGrid();

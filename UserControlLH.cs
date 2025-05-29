@@ -18,25 +18,20 @@ namespace BTL
 
         private void UserControlLH_Load(object? sender, EventArgs e)
         {
-            // Lớp học
             _dtLop = _db.GetAll<Lop>();
             _viewLop = _dtLop.DefaultView;
             dataGridView.DataSource = _viewLop;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
-            // Đổi tiêu đề cột
             if (dataGridView.Columns.Contains("MaLop"))
                 dataGridView.Columns["MaLop"].HeaderText = "Mã lớp";
             if (dataGridView.Columns.Contains("TenLop"))
                 dataGridView.Columns["TenLop"].HeaderText = "Tên lớp";
-            // nếu view có luôn cả cột Khoa
             if (dataGridView.Columns.Contains("TenKhoa"))
                 dataGridView.Columns["TenKhoa"].HeaderText = "Khoa";
 
-            // Ẩn cột khóa ngoại (nếu có)
             if (dataGridView.Columns.Contains("MaKhoa"))
                 dataGridView.Columns["MaKhoa"].Visible = false;
 
-            // Tự động co giãn cột cho vừa với grid
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.Columns["MaLop"].FillWeight = 30;
             dataGridView.Columns["TenLop"].FillWeight = 70;
@@ -56,7 +51,6 @@ namespace BTL
             textBoxMaLop.Text = row["MaLop"].ToString();
             textBoxTenLop.Text = row["TenLop"].ToString();
             string maLop = row["MaLop"].ToString();
-            // Danh sách sinh viên của lớp
             dataGridViewSV.DataSource = _db.GetSinhVienByLop(maLop);
             dataGridViewSV.Columns["MaSV"].HeaderText = "Mã sinh viên";
             dataGridViewSV.Columns["TenSV"].HeaderText = "Họ và tên";
@@ -76,9 +70,7 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewLop.RowFilter = string.IsNullOrEmpty(kw)
-                ? string.Empty
-                : $"MaLop LIKE '%{kw}%' OR TenLop LIKE '%{kw}%'";
+            _viewLop.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaLop LIKE '%{kw}%' OR TenLop LIKE '%{kw}%'";
         }
 
         private void buttonThem_Click(object? sender, EventArgs e)
@@ -134,15 +126,13 @@ namespace BTL
         {
             if (dataGridView.CurrentRow == null) return;
             string ma = textBoxMaLop.Text;
-            if (MessageBox.Show($"Xoá lớp {ma}?", "Xác nhận",
-                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Xoá lớp {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _db.Delete<Lop>(ma);
                 RefreshGrid();
             }
         }
 
-        // 5. Thêm môn học cho lớp (GiangDay)
         private void buttonMH_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
@@ -152,7 +142,6 @@ namespace BTL
                 dataGridViewMH.DataSource = _db.GetMonByLop(maLop);
         }
 
-        // 6. Tiện ích
         private void RefreshGrid()
         {
             string filter = _viewLop.RowFilter;

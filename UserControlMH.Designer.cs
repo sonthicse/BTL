@@ -115,6 +115,7 @@
             // 
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.AllowUserToResizeRows = false;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
@@ -152,10 +153,14 @@
             // 
             // dataGridViewGV
             // 
+            dataGridViewGV.AllowUserToAddRows = false;
+            dataGridViewGV.AllowUserToDeleteRows = false;
+            dataGridViewGV.AllowUserToResizeRows = false;
             dataGridViewGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewGV.Location = new Point(525, 58);
             dataGridViewGV.Name = "dataGridViewGV";
             dataGridViewGV.RowHeadersVisible = false;
+            dataGridViewGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewGV.Size = new Size(799, 298);
             dataGridViewGV.TabIndex = 8;
             // 

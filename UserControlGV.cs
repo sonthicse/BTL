@@ -21,38 +21,31 @@ namespace BTL
 
         private void UserControlGV_Load(object? sender, EventArgs e)
         {
-            // -- KHOA (ComboBox chọn khoa)
             _dtKhoa = _db.GetAll<Khoa>();
             comboBoxKhoa.DisplayMember = "TenKhoa";
             comboBoxKhoa.ValueMember = "MaKhoa";
             comboBoxKhoa.DataSource = _dtKhoa;
             comboBoxKhoa.SelectedIndexChanged += ComboBoxKhoaChanged;
 
-            // -- GIẢNG VIÊN (lưới danh sách giảng viên)
             _dtGV = _db.GetAll<GiangVien>();
             _viewGV = _dtGV.DefaultView;
             dataGridView.DataSource = _viewGV;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
 
-            // Đổi tiêu đề cột hiển thị
                 dataGridView.Columns["MaGV"].HeaderText = "Mã giảng viên";
                 dataGridView.Columns["TenGV"].HeaderText = "Họ và tên";
                 dataGridView.Columns["TenKhoa"].HeaderText = "Khoa";
                 dataGridView.Columns["TenMH"].HeaderText = "Môn học";
 
-            // Ẩn các cột mã khóa ngoại
                 dataGridView.Columns["MaKhoa"].Visible = false;
                 dataGridView.Columns["MaMH"].Visible = false;
 
-            // Tự động điều chỉnh kích thước cột
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            // Tùy chỉnh tỉ lệ fill cho mỗi cột
             dataGridView.Columns["MaGV"].FillWeight = 10;
             dataGridView.Columns["TenGV"].FillWeight = 30;
                 dataGridView.Columns["TenKhoa"].FillWeight = 30;
                 dataGridView.Columns["TenMH"].FillWeight = 30;
 
-            // Sự kiện tìm kiếm
             textBoxSearch.TextChanged += ButtonSearch_Click;
 
             if (dataGridView.Rows.Count > 0)
@@ -61,7 +54,6 @@ namespace BTL
 
         private void ComboBoxKhoaChanged(object? sender, EventArgs e)
         {
-            // Khi chọn khoa mới, cập nhật danh sách môn học tương ứng
             string maKhoa = comboBoxKhoa.SelectedValue?.ToString() ?? "";
             _dtMon = _db.GetMonHocByKhoa(maKhoa);
             comboBoxMH.DisplayMember = "TenMH";
@@ -78,13 +70,10 @@ namespace BTL
             comboBoxKhoa.SelectedValue = row["MaKhoa"];
             comboBoxMH.SelectedValue = row["MaMH"];
 
-            // Hiển thị các lớp giảng viên dạy
             var maGV = row["MaGV"].ToString();
             dataGridViewLH.DataSource = _db.GetLopByGiangVien(maGV);
-            // Đổi tiêu đề cột
             dataGridViewLH.Columns["MaLop"].HeaderText = "Mã lớp";
             dataGridViewLH.Columns["TenLop"].HeaderText = "Tên lớp";
-            // Tự động co giãn
             dataGridViewLH.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewLH.Columns["MaLop"].FillWeight = 20;
             dataGridViewLH.Columns["TenLop"].FillWeight = 80;
@@ -114,8 +103,6 @@ namespace BTL
             buttonXacNhan.Visible = buttonHuy.Visible = editing;
             buttonSua.Visible = buttonThem.Visible = buttonXoa.Visible = !editing;
         }
-
-        // === NÚT THÊM/SỬA/XÓA/HỦY/ XÁC NHẬN ===
 
         private void buttonThem_Click(object? sender, EventArgs e)
         {
@@ -149,7 +136,6 @@ namespace BTL
                 MaMH = comboBoxMH.SelectedValue?.ToString()
             };
 
-            // 1. Validate nhập liệu
             if (string.IsNullOrEmpty(gv.MaGV)
              || string.IsNullOrEmpty(gv.TenGV)
              || string.IsNullOrEmpty(gv.MaKhoa)
@@ -163,7 +149,6 @@ namespace BTL
             bool ok;
             if (_mode == Mode.Add)
             {
-                // kiểm tra trùng khóa trước khi thêm mới
                 if (_db.Exist<GiangVien>(gv.MaGV))
                 {
                     MessageBox.Show($"Mã giảng viên '{gv.MaGV}' đã tồn tại.",
@@ -172,9 +157,8 @@ namespace BTL
                 }
                 ok = _db.Insert(gv);
             }
-            else // Mode.Edit
+            else  
             {
-                // cập nhật: gọi Update<T>
                 ok = _db.Update(gv);
             }
 
@@ -183,7 +167,6 @@ namespace BTL
                             MessageBoxButtons.OK,
                             ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
-            // Quay về chế độ View, load lại lưới
             _mode = Mode.View;
             ToggleEdit(false);
             LoadGrid();

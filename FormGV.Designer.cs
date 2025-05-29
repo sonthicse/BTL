@@ -101,6 +101,9 @@
             // buttonCD
             // 
             buttonCD.Dock = DockStyle.Fill;
+            buttonCD.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonCD.FlatAppearance.BorderSize = 2;
+            buttonCD.FlatStyle = FlatStyle.Flat;
             buttonCD.Location = new Point(3, 135);
             buttonCD.Name = "buttonCD";
             buttonCD.Size = new Size(194, 62);
@@ -112,6 +115,9 @@
             // buttonTC
             // 
             buttonTC.Dock = DockStyle.Fill;
+            buttonTC.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonTC.FlatAppearance.BorderSize = 2;
+            buttonTC.FlatStyle = FlatStyle.Flat;
             buttonTC.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonTC.Location = new Point(3, 3);
             buttonTC.Name = "buttonTC";
@@ -124,6 +130,9 @@
             // buttonSV
             // 
             buttonSV.Dock = DockStyle.Fill;
+            buttonSV.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonSV.FlatAppearance.BorderSize = 2;
+            buttonSV.FlatStyle = FlatStyle.Flat;
             buttonSV.Location = new Point(3, 69);
             buttonSV.Name = "buttonSV";
             buttonSV.Size = new Size(194, 60);

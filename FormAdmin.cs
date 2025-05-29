@@ -24,7 +24,7 @@ namespace BTL
         NavigationButton navigationButton;
 
         readonly Color btnDefaultColor = Color.FromKnownColor(KnownColor.ControlLight);
-        readonly Color btnSelectedtColor = Color.FromKnownColor(KnownColor.ControlDark);
+        readonly Color btnSelectedtColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
         public FormAdmin()
         {
             InitializeComponent();
@@ -34,10 +34,10 @@ namespace BTL
 
         private void InitializeNavigationControl()
         {
-            List<UserControl> userControl = new List<UserControl>() // Your UserControl list
+            List<UserControl> userControl = new List<UserControl>()
             { tC, sV, gV, lH, mH, khoa, tK };
 
-            navigationControl = new NavigationControl(userControl, panelContent); // create an instance of NavigationControl class
+            navigationControl = new NavigationControl(userControl, panelContent);
             navigationControl.Display(0);
         }
 
@@ -46,9 +46,7 @@ namespace BTL
             List<Button> buttons = new List<Button>()
             { buttonTC, buttonSV, buttonGV, buttonLH, buttonMH, buttonKhoa, buttonTK };
 
-            // create a NavigationButtons instance
             navigationButton = new NavigationButton(buttons, btnDefaultColor, btnSelectedtColor);
-            // Make a default selected button
             navigationButton.Highlight(buttonTC);
         }
 

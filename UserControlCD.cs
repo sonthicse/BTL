@@ -13,95 +13,77 @@ namespace BTL
         public UserControlCD()
         {
             InitializeComponent();
-            Load += UC_Load;
-            // Gán sự kiện nút
             buttonDMK.Click += ButtonDMK_Click;
             buttonXacNhan.Click += ButtonXacNhan_Click;
             buttonHuy.Click += ButtonHuy_Click;
         }
 
-        // 1. Hàm nạp tài khoản
-        public void LoadAccount(string username)
+        public void LoadAccount(string maGV)
         {
-            _username = username;
-            textBoxMaSV.Text = _username;  // Username
+            _username = _db.GetDataTable("SELECT Username FROM TaiKhoan WHERE MaGV=@g", ("@g", maGV) ).Rows[0]["Username"].ToString() ?? "";
 
-            // Lấy mật khẩu từ DB
-            var dt = _db.GetDataTable(
-                "SELECT Password FROM TaiKhoan WHERE Username=@u",
-                ("@u", _username)
-            );
+            textBoxUsername.Text = _username;
+
+            var dt = _db.GetDataTable("SELECT Password FROM TaiKhoan WHERE Username=@u", ("@u", _username) );
             if (dt.Rows.Count > 0)
             {
                 _origPassword = dt.Rows[0]["Password"].ToString() ?? "";
-                textBox1.Text = _origPassword;  // Password
+                textBoxPassword.Text = _origPassword;
             }
             else
             {
-                _origPassword = textBox1.Text = "";
+                _origPassword = textBoxPassword.Text = "";
             }
 
-            // Thiết lập mặc định
-            textBox1.Enabled = false;
+            textBoxPassword.Enabled = false;
             buttonXacNhan.Visible = false;
             buttonHuy.Visible = false;
             buttonDMK.Visible = true;
         }
 
-        // 2. Đổi mật khẩu: bật chế độ edit
         private void ButtonDMK_Click(object? sender, EventArgs e)
         {
-            textBox1.Enabled = true;
+            textBoxPassword.Enabled = true;
             buttonXacNhan.Visible = true;
             buttonHuy.Visible = true;
             buttonDMK.Visible = false;
-            textBox1.Focus();
+            textBoxPassword.Focus();
         }
 
-        // 3. Xác nhận đổi mật khẩu
         private void ButtonXacNhan_Click(object? sender, EventArgs e)
         {
-            string newPass = textBox1.Text.Trim();
+            string newPass = textBoxPassword.Text.Trim();
             if (string.IsNullOrEmpty(newPass))
             {
-                MessageBox.Show("Mật khẩu không được để trống.", "Lỗi",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBox1.Focus();
+                MessageBox.Show("Mật khẩu không được để trống.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPassword.Focus();
                 return;
             }
 
             bool ok = _db.UpdatePassword(_username, newPass);
             if (ok)
             {
-                MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _origPassword = newPass;
             }
             else
             {
-                MessageBox.Show("Lỗi khi đổi mật khẩu.", "Lỗi",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi đổi mật khẩu.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Quay về chế độ view
-            textBox1.Enabled = false;
+            textBoxPassword.Enabled = false;
             buttonXacNhan.Visible = false;
             buttonHuy.Visible = false;
             buttonDMK.Visible = true;
         }
 
-        // 4. Hủy đổi mật khẩu: trả lại mật khẩu cũ
         private void ButtonHuy_Click(object? sender, EventArgs e)
         {
-            textBox1.Text = _origPassword;
-            textBox1.Enabled = false;
+            textBoxPassword.Text = _origPassword;
+            textBoxPassword.Enabled = false;
             buttonXacNhan.Visible = false;
             buttonHuy.Visible = false;
             buttonDMK.Visible = true;
         }
-
-        // (Tuỳ chọn) Nếu muốn tự động nạp tài khoản GV đang đăng nhập:
-        // Gọi LoadAccount(maGV) tại đây hoặc từ Form cha.
-        private void UC_Load(object? sender, EventArgs e) { }
     }
 }

@@ -22,7 +22,7 @@ namespace BTL
         private NavigationControl navigationControl;
 
         readonly Color btnDefaultColor = Color.FromKnownColor(KnownColor.ControlLight);
-        readonly Color btnSelectedtColor = Color.FromKnownColor(KnownColor.ControlDark);
+        readonly Color btnSelectedtColor = Color.FromKnownColor(KnownColor.ButtonHighlight);
         public FormGV(string maGV)
         {
             InitializeComponent();
@@ -40,10 +40,9 @@ namespace BTL
 
         private void InitializeNavigationControl()
         {
-            List<UserControl> userControl = new List<UserControl>() // Your UserControl list
-            { tC, diem, cD };
+            List<UserControl> userControl = new List<UserControl>() { tC, diem, cD };
 
-            navigationControl = new NavigationControl(userControl, panelContent); // create an instance of NavigationControl class
+            navigationControl = new NavigationControl(userControl, panelContent);
             navigationControl.Display(0);
         }
 

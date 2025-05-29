@@ -25,13 +25,11 @@ namespace BTL
             dataGridView.DataSource = _view;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Đổi tiêu đề cột
             if (dataGridView.Columns.Contains("MaKhoa"))
                 dataGridView.Columns["MaKhoa"].HeaderText = "Mã khoa";
             if (dataGridView.Columns.Contains("TenKhoa"))
                 dataGridView.Columns["TenKhoa"].HeaderText = "Tên khoa";
 
-            // Tùy chỉnh tỉ lệ fill của mỗi cột
             dataGridView.Columns["MaKhoa"].FillWeight = 30;
             dataGridView.Columns["TenKhoa"].FillWeight = 70;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
@@ -57,8 +55,7 @@ namespace BTL
         private void Search(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _view.RowFilter = string.IsNullOrEmpty(kw) ? "" :
-                              $"MaKhoa LIKE '%{kw}%' OR TenKhoa LIKE '%{kw}%'";
+            _view.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"MaKhoa LIKE '%{kw}%' OR TenKhoa LIKE '%{kw}%'";
         }
 
         private void BtnThem_Click(object? sender, EventArgs e)
@@ -102,8 +99,7 @@ namespace BTL
         {
             if (dataGridView.CurrentRow == null) return;
             string ma = textBox1.Text;
-            if (MessageBox.Show($"Xoá khoa {ma}?", "Xác nhận",
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Xoá khoa {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 _db.Delete<Khoa>(ma);
                 LoadData();

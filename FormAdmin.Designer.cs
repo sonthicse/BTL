@@ -113,6 +113,9 @@
             // buttonTC
             // 
             buttonTC.Dock = DockStyle.Fill;
+            buttonTC.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonTC.FlatAppearance.BorderSize = 2;
+            buttonTC.FlatStyle = FlatStyle.Flat;
             buttonTC.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonTC.Location = new Point(3, 3);
             buttonTC.Name = "buttonTC";
@@ -125,6 +128,9 @@
             // buttonSV
             // 
             buttonSV.Dock = DockStyle.Fill;
+            buttonSV.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonSV.FlatAppearance.BorderSize = 2;
+            buttonSV.FlatStyle = FlatStyle.Flat;
             buttonSV.Location = new Point(3, 60);
             buttonSV.Name = "buttonSV";
             buttonSV.Size = new Size(194, 51);
@@ -136,6 +142,9 @@
             // buttonGV
             // 
             buttonGV.Dock = DockStyle.Fill;
+            buttonGV.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonGV.FlatAppearance.BorderSize = 2;
+            buttonGV.FlatStyle = FlatStyle.Flat;
             buttonGV.Location = new Point(3, 117);
             buttonGV.Name = "buttonGV";
             buttonGV.Size = new Size(194, 51);
@@ -147,6 +156,9 @@
             // buttonLH
             // 
             buttonLH.Dock = DockStyle.Fill;
+            buttonLH.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonLH.FlatAppearance.BorderSize = 2;
+            buttonLH.FlatStyle = FlatStyle.Flat;
             buttonLH.Location = new Point(3, 174);
             buttonLH.Name = "buttonLH";
             buttonLH.Size = new Size(194, 51);
@@ -158,6 +170,9 @@
             // buttonMH
             // 
             buttonMH.Dock = DockStyle.Fill;
+            buttonMH.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonMH.FlatAppearance.BorderSize = 2;
+            buttonMH.FlatStyle = FlatStyle.Flat;
             buttonMH.Location = new Point(3, 231);
             buttonMH.Name = "buttonMH";
             buttonMH.Size = new Size(194, 51);
@@ -169,6 +184,9 @@
             // buttonKhoa
             // 
             buttonKhoa.Dock = DockStyle.Fill;
+            buttonKhoa.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonKhoa.FlatAppearance.BorderSize = 2;
+            buttonKhoa.FlatStyle = FlatStyle.Flat;
             buttonKhoa.Location = new Point(3, 288);
             buttonKhoa.Name = "buttonKhoa";
             buttonKhoa.Size = new Size(194, 51);
@@ -180,6 +198,9 @@
             // buttonTK
             // 
             buttonTK.Dock = DockStyle.Fill;
+            buttonTK.FlatAppearance.BorderColor = SystemColors.ButtonHighlight;
+            buttonTK.FlatAppearance.BorderSize = 2;
+            buttonTK.FlatStyle = FlatStyle.Flat;
             buttonTK.Location = new Point(3, 345);
             buttonTK.Name = "buttonTK";
             buttonTK.Size = new Size(194, 52);

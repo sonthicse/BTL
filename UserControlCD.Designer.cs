@@ -33,8 +33,8 @@
             buttonDMK = new Button();
             buttonXacNhan = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
-            textBox1 = new TextBox();
-            textBoxMaSV = new TextBox();
+            textBoxPassword = new TextBox();
+            textBoxUsername = new TextBox();
             label1 = new Label();
             label2 = new Label();
             panel1.SuspendLayout();
@@ -90,8 +90,8 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32.8125F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 67.1875F));
-            tableLayoutPanel1.Controls.Add(textBox1, 1, 1);
-            tableLayoutPanel1.Controls.Add(textBoxMaSV, 1, 0);
+            tableLayoutPanel1.Controls.Add(textBoxPassword, 1, 1);
+            tableLayoutPanel1.Controls.Add(textBoxUsername, 1, 0);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(label2, 0, 1);
             tableLayoutPanel1.Location = new Point(464, 146);
@@ -102,28 +102,28 @@
             tableLayoutPanel1.Size = new Size(384, 100);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // textBox1
+            // textBoxPassword
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Enabled = false;
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(129, 53);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(252, 29);
-            textBox1.TabIndex = 14;
-            textBox1.UseSystemPasswordChar = true;
+            textBoxPassword.BorderStyle = BorderStyle.FixedSingle;
+            textBoxPassword.Dock = DockStyle.Fill;
+            textBoxPassword.Enabled = false;
+            textBoxPassword.Font = new Font("Segoe UI", 12F);
+            textBoxPassword.Location = new Point(129, 53);
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.Size = new Size(252, 29);
+            textBoxPassword.TabIndex = 14;
+            textBoxPassword.UseSystemPasswordChar = true;
             // 
-            // textBoxMaSV
+            // textBoxUsername
             // 
-            textBoxMaSV.BorderStyle = BorderStyle.FixedSingle;
-            textBoxMaSV.Dock = DockStyle.Fill;
-            textBoxMaSV.Enabled = false;
-            textBoxMaSV.Font = new Font("Segoe UI", 12F);
-            textBoxMaSV.Location = new Point(129, 3);
-            textBoxMaSV.Name = "textBoxMaSV";
-            textBoxMaSV.Size = new Size(252, 29);
-            textBoxMaSV.TabIndex = 13;
+            textBoxUsername.BorderStyle = BorderStyle.FixedSingle;
+            textBoxUsername.Dock = DockStyle.Fill;
+            textBoxUsername.Enabled = false;
+            textBoxUsername.Font = new Font("Segoe UI", 12F);
+            textBoxUsername.Location = new Point(129, 3);
+            textBoxUsername.Name = "textBoxUsername";
+            textBoxUsername.Size = new Size(252, 29);
+            textBoxUsername.TabIndex = 13;
             // 
             // label1
             // 
@@ -162,8 +162,8 @@
 
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel1;
-        private TextBox textBox1;
-        private TextBox textBoxMaSV;
+        private TextBox textBoxPassword;
+        private TextBox textBoxUsername;
         private Label label1;
         private Label label2;
         private Button buttonHuy;
