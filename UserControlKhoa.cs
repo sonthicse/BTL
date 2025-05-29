@@ -6,11 +6,11 @@ namespace BTL
 {
     public partial class UserControlKhoa : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dt;
-        private DataView _view;
+        private readonly Database db = new();
+        private DataTable dt;
+        private DataView view;
         private enum Mode { View, Add, Edit }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlKhoa()
         {
@@ -20,9 +20,9 @@ namespace BTL
 
         public void UserControlKhoa_Load(object? sender, EventArgs e)
         {
-            _dt = _db.GetAll<Khoa>();
-            _view = _dt.DefaultView;
-            dataGridView.DataSource = _view;
+            dt = db.GetAll<Khoa>();
+            view = dt.DefaultView;
+            dataGridView.DataSource = view;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             if (dataGridView.Columns.Contains("MaKhoa"))
@@ -55,19 +55,19 @@ namespace BTL
         private void Search(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _view.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"MaKhoa LIKE '%{kw}%' OR TenKhoa LIKE '%{kw}%'";
+            view.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"MaKhoa LIKE '%{kw}%' OR TenKhoa LIKE '%{kw}%'";
         }
 
         private void BtnThem_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ToggleEdit(true);
             ClearInput();
         }
 
         private void BtnHuy_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             if (dataGridView.CurrentRow != null)
                 DataGridView_SelectionChanged(null!, EventArgs.Empty);
@@ -77,18 +77,18 @@ namespace BTL
         {
             var k = new Khoa { MaKhoa = textBox1.Text.Trim(), TenKhoa = textBox2.Text.Trim() };
             bool ok = false;
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<Khoa>(k.MaKhoa))
+                if (db.Exist<Khoa>(k.MaKhoa))
                 {
                     MessageBox.Show("Mã khoa đã tồn tại");
                     return;
                 }
-                ok = _db.Insert<Khoa>(k);
+                ok = db.Insert<Khoa>(k);
             }
-            else if (_mode == Mode.Edit)
+            else if (mode == Mode.Edit)
             {
-                ok = _db.Update<Khoa>(k);
+                ok = db.Update<Khoa>(k);
             }
             MessageBox.Show(ok ? "Lưu thành công" : "Không thành công");
             BtnHuy_Click(null!, EventArgs.Empty);
@@ -101,7 +101,7 @@ namespace BTL
             string ma = textBox1.Text;
             if (MessageBox.Show($"Xoá khoa {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                _db.Delete<Khoa>(ma);
+                db.Delete<Khoa>(ma);
                 LoadData();
             }
         }
@@ -109,7 +109,7 @@ namespace BTL
         private void ToggleEdit(bool enable)
         {
             dataGridView.Enabled = !enable;
-            textBox1.Enabled = textBox2.Enabled = (_mode == Mode.Add);
+            textBox1.Enabled = textBox2.Enabled = (mode == Mode.Add);
             buttonXN.Visible = buttonHuy.Visible = enable;
             buttonThem.Visible = buttonXoa.Visible = !enable;
         }
@@ -122,10 +122,10 @@ namespace BTL
 
         private void LoadData()
         {
-            string filter = _view?.RowFilter ?? "";
-            _dt = _db.GetAll<Khoa>();
-            _view = new DataView(_dt) { RowFilter = filter };
-            dataGridView.DataSource = _view;
+            string filter = view?.RowFilter ?? "";
+            dt = db.GetAll<Khoa>();
+            view = new DataView(dt) { RowFilter = filter };
+            dataGridView.DataSource = view;
         }
     }
 }

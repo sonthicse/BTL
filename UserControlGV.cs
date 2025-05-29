@@ -6,12 +6,12 @@ namespace BTL
 {
     public partial class UserControlGV : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtGV = new();
-        private DataView _viewGV;
-        private DataTable _dtKhoa, _dtMon;
+        private readonly Database db = new();
+        private DataTable dtGV = new();
+        private DataView viewGV;
+        private DataTable dtKhoa, dtMon;
         private enum Mode { View, Add, Edit }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlGV()
         {
@@ -21,15 +21,15 @@ namespace BTL
 
         public void UserControlGV_Load(object? sender, EventArgs e)
         {
-            _dtKhoa = _db.GetAll<Khoa>();
+            dtKhoa = db.GetAll<Khoa>();
             comboBoxKhoa.DisplayMember = "TenKhoa";
             comboBoxKhoa.ValueMember = "MaKhoa";
-            comboBoxKhoa.DataSource = _dtKhoa;
+            comboBoxKhoa.DataSource = dtKhoa;
             comboBoxKhoa.SelectedIndexChanged += ComboBoxKhoaChanged;
 
-            _dtGV = _db.GetAll<GiangVien>();
-            _viewGV = _dtGV.DefaultView;
-            dataGridView.DataSource = _viewGV;
+            dtGV = db.GetAll<GiangVien>();
+            viewGV = dtGV.DefaultView;
+            dataGridView.DataSource = viewGV;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
 
                 dataGridView.Columns["MaGV"].HeaderText = "Mã giảng viên";
@@ -55,10 +55,10 @@ namespace BTL
         private void ComboBoxKhoaChanged(object? sender, EventArgs e)
         {
             string maKhoa = comboBoxKhoa.SelectedValue?.ToString() ?? "";
-            _dtMon = _db.GetMonHocByKhoa(maKhoa);
+            dtMon = db.GetMonHocByKhoa(maKhoa);
             comboBoxMH.DisplayMember = "TenMH";
             comboBoxMH.ValueMember = "MaMH";
-            comboBoxMH.DataSource = _dtMon;
+            comboBoxMH.DataSource = dtMon;
         }
 
         private void DataGridView_SelectionChanged(object? sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace BTL
             comboBoxMH.SelectedValue = row["MaMH"];
 
             var maGV = row["MaGV"].ToString();
-            dataGridViewLH.DataSource = _db.GetLopByGiangVien(maGV);
+            dataGridViewLH.DataSource = db.GetLopByGiangVien(maGV);
             dataGridViewLH.Columns["MaLop"].HeaderText = "Mã lớp";
             dataGridViewLH.Columns["TenLop"].HeaderText = "Tên lớp";
             dataGridViewLH.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -82,7 +82,7 @@ namespace BTL
         private void ButtonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewGV.RowFilter = string.IsNullOrEmpty(kw)
+            viewGV.RowFilter = string.IsNullOrEmpty(kw)
                 ? ""
                 : $"MaGV LIKE '%{kw}%' OR TenGV LIKE '%{kw}%'";
         }
@@ -91,22 +91,22 @@ namespace BTL
         {
             textBoxMaGV.Clear();
             textBoxTenGV.Clear();
-            if (_dtKhoa.Rows.Count > 0) comboBoxKhoa.SelectedIndex = 0;
-            if (_dtMon != null && _dtMon.Rows.Count > 0) comboBoxMH.SelectedIndex = 0;
+            if (dtKhoa.Rows.Count > 0) comboBoxKhoa.SelectedIndex = 0;
+            if (dtMon != null && dtMon.Rows.Count > 0) comboBoxMH.SelectedIndex = 0;
         }
 
         private void ToggleEdit(bool editing)
         {
             dataGridView.Enabled = !editing;
             textBoxTenGV.Enabled = comboBoxKhoa.Enabled = comboBoxMH.Enabled = editing;
-            textBoxMaGV.Enabled = (_mode == Mode.Add);
+            textBoxMaGV.Enabled = (mode == Mode.Add);
             buttonXacNhan.Visible = buttonHuy.Visible = editing;
             buttonSua.Visible = buttonThem.Visible = buttonXoa.Visible = !editing;
         }
 
         private void buttonThem_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ClearInput();
             ToggleEdit(true);
         }
@@ -114,13 +114,13 @@ namespace BTL
         private void buttonSua_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-            _mode = Mode.Edit;
+            mode = Mode.Edit;
             ToggleEdit(true);
         }
 
         private void buttonHuy_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             if (dataGridView.CurrentRow != null)
             DataGridView_SelectionChanged(null!, EventArgs.Empty);
@@ -147,19 +147,19 @@ namespace BTL
             }
 
             bool ok;
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<GiangVien>(gv.MaGV))
+                if (db.Exist<GiangVien>(gv.MaGV))
                 {
                     MessageBox.Show($"Mã giảng viên '{gv.MaGV}' đã tồn tại.",
                                     "Không thể thêm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                ok = _db.Insert(gv);
+                ok = db.Insert(gv);
             }
             else  
             {
-                ok = _db.Update(gv);
+                ok = db.Update(gv);
             }
 
             MessageBox.Show(ok ? "Lưu thành công!" : "Thao tác thất bại!",
@@ -167,7 +167,7 @@ namespace BTL
                             MessageBoxButtons.OK,
                             ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             LoadGrid();
         }
@@ -179,17 +179,17 @@ namespace BTL
             if (MessageBox.Show($"Xoá giảng viên {ma}?", "Xác nhận", MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                _db.Delete<GiangVien>(ma);
+                db.Delete<GiangVien>(ma);
                 LoadGrid();
             }
         }
 
         private void LoadGrid()
         {
-            string filter = _viewGV?.RowFilter ?? "";
-            _dtGV = _db.GetAll<GiangVien>();
-            _viewGV = new DataView(_dtGV) { RowFilter = filter };
-            dataGridView.DataSource = _viewGV;
+            string filter = viewGV?.RowFilter ?? "";
+            dtGV = db.GetAll<GiangVien>();
+            viewGV = new DataView(dtGV) { RowFilter = filter };
+            dataGridView.DataSource = viewGV;
         }
     }
 }

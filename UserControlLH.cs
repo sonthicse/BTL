@@ -4,11 +4,11 @@ namespace BTL
 {
     public partial class UserControlLH : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtLop;
-        private DataView _viewLop;
+        private readonly Database db = new();
+        private DataTable dtLop;
+        private DataView viewLop;
         private enum Mode { View, Add, Edit }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlLH()
         {
@@ -18,9 +18,9 @@ namespace BTL
 
         public void UserControlLH_Load(object? sender, EventArgs e)
         {
-            _dtLop = _db.GetAll<Lop>();
-            _viewLop = _dtLop.DefaultView;
-            dataGridView.DataSource = _viewLop;
+            dtLop = db.GetAll<Lop>();
+            viewLop = dtLop.DefaultView;
+            dataGridView.DataSource = viewLop;
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;
             if (dataGridView.Columns.Contains("MaLop"))
                 dataGridView.Columns["MaLop"].HeaderText = "Mã lớp";
@@ -49,7 +49,7 @@ namespace BTL
             textBoxMaLop.Text = row["MaLop"].ToString();
             textBoxTenLop.Text = row["TenLop"].ToString();
             string maLop = row["MaLop"].ToString();
-            dataGridViewSV.DataSource = _db.GetSinhVienByLop(maLop);
+            dataGridViewSV.DataSource = db.GetSinhVienByLop(maLop);
             dataGridViewSV.Columns["MaSV"].HeaderText = "Mã sinh viên";
             dataGridViewSV.Columns["TenSV"].HeaderText = "Họ và tên";
             dataGridViewSV.Columns["NgaySinh"].HeaderText = "Ngày sinh";
@@ -57,7 +57,7 @@ namespace BTL
             dataGridViewSV.Columns["NgaySinh"].Visible = false;
             dataGridViewSV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dataGridViewMH.DataSource = _db.GetMonByLop(maLop);
+            dataGridViewMH.DataSource = db.GetMonByLop(maLop);
             dataGridViewMH.Columns["MaMH"].HeaderText = "Mã môn học";
             dataGridViewMH.Columns["TenMH"].HeaderText = "Tên môn học";
             dataGridViewMH.Columns["TenGV"].HeaderText = "Giảng viên";
@@ -68,12 +68,12 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewLop.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaLop LIKE '%{kw}%' OR TenLop LIKE '%{kw}%'";
+            viewLop.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaLop LIKE '%{kw}%' OR TenLop LIKE '%{kw}%'";
         }
 
         private void buttonThem_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ClearInput();
             ToggleEdit(true);
         }
@@ -81,13 +81,13 @@ namespace BTL
         private void buttonSua_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-            _mode = Mode.Edit;
+            mode = Mode.Edit;
             ToggleEdit(true);
         }
 
         private void buttonHuy_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             if (dataGridView.Rows.Count > 0)
                 DataGridView_SelectionChanged(null!, EventArgs.Empty);
@@ -101,19 +101,19 @@ namespace BTL
                 TenLop = textBoxTenLop.Text.Trim()
             };
             bool ok = false;
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<Lop>(lp.MaLop))
+                if (db.Exist<Lop>(lp.MaLop))
                 {
                     MessageBox.Show("Mã lớp đã tồn tại!");
                     textBoxMaLop.Focus();
                     return;
                 }
-                ok = _db.Insert<Lop>(lp);
+                ok = db.Insert<Lop>(lp);
             }
-            else if (_mode == Mode.Edit)
+            else if (mode == Mode.Edit)
             {
-                ok = _db.Update<Lop>(lp);
+                ok = db.Update<Lop>(lp);
             }
             MessageBox.Show(ok ? "Lưu thành công" : "Thao tác thất bại!");
             RefreshGrid();
@@ -126,7 +126,7 @@ namespace BTL
             string ma = textBoxMaLop.Text;
             if (MessageBox.Show($"Xoá lớp {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                _db.Delete<Lop>(ma);
+                db.Delete<Lop>(ma);
                 RefreshGrid();
             }
         }
@@ -135,17 +135,17 @@ namespace BTL
         {
             if (dataGridView.CurrentRow == null) return;
             string maLop = textBoxMaLop.Text;
-            using FormThemMH f = new(_db, maLop);
+            using FormThemMH f = new(db, maLop);
             if (f.ShowDialog() == DialogResult.OK)
-                dataGridViewMH.DataSource = _db.GetMonByLop(maLop);
+                dataGridViewMH.DataSource = db.GetMonByLop(maLop);
         }
 
         private void RefreshGrid()
         {
-            string filter = _viewLop.RowFilter;
-            _dtLop = _db.GetAll<Lop>();
-            _viewLop = new DataView(_dtLop) { RowFilter = filter };
-            dataGridView.DataSource = _viewLop;
+            string filter = viewLop.RowFilter;
+            dtLop = db.GetAll<Lop>();
+            viewLop = new DataView(dtLop) { RowFilter = filter };
+            dataGridView.DataSource = viewLop;
         }
 
         private void ClearInput()
@@ -160,7 +160,7 @@ namespace BTL
             dataGridViewMH.Enabled = !enable;
             dataGridViewSV.Enabled = !enable;
             textBoxTenLop.Enabled = enable;
-            textBoxMaLop.Enabled = (_mode == Mode.Add);
+            textBoxMaLop.Enabled = (mode == Mode.Add);
             buttonXacNhan.Visible = buttonHuy.Visible = enable;
             buttonThem.Visible = buttonSua.Visible = buttonXoa.Visible = !enable;
         }

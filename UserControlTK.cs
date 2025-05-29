@@ -6,11 +6,11 @@ namespace BTL
 {
     public partial class UserControlTK : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtTK;
-        private DataView _viewTK;
+        private readonly Database db = new();
+        private DataTable dtTK;
+        private DataView viewTK;
         private enum Mode { View, Add, ChangePass }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlTK()
         {
@@ -25,7 +25,7 @@ namespace BTL
             textBoxSearch.TextChanged += buttonSearch_Click;
             comboBoxGV.DisplayMember = "TenGV";
             comboBoxGV.ValueMember = "MaGV";
-            comboBoxGV.DataSource = _db.GetAll<GiangVien>();
+            comboBoxGV.DataSource = db.GetAll<GiangVien>();
 
             if (dataGridView.Rows.Count > 0)
                 DataGridView_SelectionChanged(null!, EventArgs.Empty);
@@ -33,10 +33,10 @@ namespace BTL
 
         private void LoadGrid()
         {
-            string filter = _viewTK?.RowFilter ?? "";
-            _dtTK = _db.GetAll<TaiKhoan>();
-            _viewTK = new DataView(_dtTK) { RowFilter = filter };
-            dataGridView.DataSource = _viewTK;
+            string filter = viewTK?.RowFilter ?? "";
+            dtTK = db.GetAll<TaiKhoan>();
+            viewTK = new DataView(dtTK) { RowFilter = filter };
+            dataGridView.DataSource = viewTK;
             dataGridView.Columns["Username"].HeaderText = "Tên đăng nhập";
             dataGridView.Columns["Password"].HeaderText = "Mật khẩu";
             dataGridView.Columns["Role"].HeaderText = "Phân quyền";
@@ -64,12 +64,12 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewTK.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"Username LIKE '%{kw}%' OR Role LIKE '%{kw}%'";
+            viewTK.RowFilter = string.IsNullOrEmpty(kw) ? "" : $"Username LIKE '%{kw}%' OR Role LIKE '%{kw}%'";
         }
 
         private void buttonThem_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ClearInput();
             ToggleEdit(true);
         }
@@ -77,14 +77,14 @@ namespace BTL
         private void buttonDMK_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-            _mode = Mode.ChangePass;
+            mode = Mode.ChangePass;
 
             ToggleEdit(true);
         }
 
         private void buttonHuy_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             buttonXN.Visible = buttonHuy.Visible = false;
             buttonThem.Enabled = buttonXoa.Enabled = buttonDMK.Enabled = true;
@@ -103,7 +103,7 @@ namespace BTL
                 return;
             }
 
-            bool ok = _db.Delete<TaiKhoan>(user);
+            bool ok = db.Delete<TaiKhoan>(user);
 
             if (ok)
             {
@@ -120,10 +120,10 @@ namespace BTL
         private void ToggleEdit(bool enable)
         {
             dataGridView.Enabled = !enable;
-            textBox1.Enabled = (_mode == Mode.Add);
+            textBox1.Enabled = (mode == Mode.Add);
             textBox2.Enabled = enable;
-            textBox3.Enabled = (_mode == Mode.Add);
-            comboBoxGV.Enabled = (_mode == Mode.Add);
+            textBox3.Enabled = (mode == Mode.Add);
+            comboBoxGV.Enabled = (mode == Mode.Add);
             buttonXN.Visible = enable;
             buttonHuy.Visible = enable;
             buttonThem.Visible = !enable;
@@ -141,9 +141,9 @@ namespace BTL
         private void buttonXN_Click(object sender, EventArgs e)
         {
             bool ok = false;
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<TaiKhoan>(textBox1.Text))
+                if (db.Exist<TaiKhoan>(textBox1.Text))
                 {
                     MessageBox.Show("Username đã tồn tại!");
                     return;
@@ -156,11 +156,11 @@ namespace BTL
                     MaGV = comboBoxGV.SelectedValue?.ToString(),
                     MaKhoa = null
                 };
-                ok = _db.Insert<TaiKhoan>(tk);
+                ok = db.Insert<TaiKhoan>(tk);
             }
-            else if (_mode == Mode.ChangePass)
+            else if (mode == Mode.ChangePass)
             {
-                ok = _db.UpdatePassword(textBox1.Text.Trim(), textBox2.Text.Trim());
+                ok = db.UpdatePassword(textBox1.Text.Trim(), textBox2.Text.Trim());
             }
 
             MessageBox.Show(ok ? "Thành công" : "Không thành công");

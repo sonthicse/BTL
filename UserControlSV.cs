@@ -7,11 +7,11 @@ namespace BTL
 {
     public partial class UserControlSV : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtSinhVien = new();
-        private DataView _viewSinhVien;
+        private readonly Database db = new();
+        private DataTable dtSV = new();
+        private DataView viewSV;
         private enum Mode { View, Add, Edit }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlSV()
         {
@@ -23,11 +23,11 @@ namespace BTL
         {
             comboBoxLop.DisplayMember = "TenLop";
             comboBoxLop.ValueMember = "MaLop";
-            comboBoxLop.DataSource = _db.GetAll<Lop>();
+            comboBoxLop.DataSource = db.GetAll<Lop>();
 
-            _dtSinhVien = _db.GetAll<SinhVien>();
-            _viewSinhVien = _dtSinhVien.DefaultView;
-            dataGridView.DataSource = _viewSinhVien;
+            dtSV = db.GetAll<SinhVien>();
+            viewSV = dtSV.DefaultView;
+            dataGridView.DataSource = viewSV;
 
             dataGridView.Columns["MaSV"].HeaderText = "Mã sinh viên";
             dataGridView.Columns["TenSV"].HeaderText = "Họ và tên";
@@ -79,11 +79,11 @@ namespace BTL
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
             if (string.IsNullOrEmpty(kw))
             {
-                _viewSinhVien.RowFilter = "";    
+                viewSV.RowFilter = "";    
             }
             else
             {
-                _viewSinhVien.RowFilter =
+                viewSV.RowFilter =
                     $"MaSV LIKE '%{kw}%' OR TenSV LIKE '%{kw}%'";
             }
             if (dataGridView.Rows.Count > 0)
@@ -104,14 +104,14 @@ namespace BTL
         {
             dataGridView.Enabled = !enable;
             textBoxTenSV.Enabled = textBoxDiaChi.Enabled = dateTimePickerNgaySinh.Enabled = radioButtonNam.Enabled = radioButtonNu.Enabled = comboBoxLop.Enabled = enable;
-            textBoxMaSV.Enabled = (_mode == Mode.Add);
+            textBoxMaSV.Enabled = (mode == Mode.Add);
             buttonHuy.Visible = buttonXacNhan.Visible = enable;
             buttonSua.Visible = buttonXoa.Visible = buttonThem.Visible = !enable;
         }
 
         private void buttonThem_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ClearInput();
             ToggleEdit(true);
             buttonXacNhan.Visible = buttonHuy.Visible = true;
@@ -122,7 +122,7 @@ namespace BTL
         private void buttonSua_Click(object? sender, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-            _mode = Mode.Edit;
+            mode = Mode.Edit;
             ToggleEdit(true);
             buttonXacNhan.Visible = buttonHuy.Visible = true;
             buttonSua.Visible = buttonXoa.Visible = false;
@@ -132,7 +132,7 @@ namespace BTL
 
         private void buttonHuy_Click(object? sender, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             buttonXacNhan.Visible = buttonHuy.Visible = false;
             buttonSua.Visible = buttonXoa.Visible = true;
@@ -154,9 +154,9 @@ namespace BTL
             };
 
             bool ok = false;
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<SinhVien>(sv.MaSV) || String.IsNullOrEmpty(textBoxMaSV.Text))
+                if (db.Exist<SinhVien>(sv.MaSV) || String.IsNullOrEmpty(textBoxMaSV.Text))
                 {
                     MessageBox.Show("Mã sinh viên đã tồn tại, hãy nhập mã khác!",
                                     "Trùng khóa chính", MessageBoxButtons.OK,
@@ -164,11 +164,11 @@ namespace BTL
                     textBoxMaSV.Focus();
                     return;
                 }
-                ok = _db.Insert<SinhVien>(sv);
+                ok = db.Insert<SinhVien>(sv);
             }
-            else if (_mode == Mode.Edit)
+            else if (mode == Mode.Edit)
             {
-                ok = _db.Update<SinhVien>(sv);
+                ok = db.Update<SinhVien>(sv);
             }
             MessageBox.Show(ok ? "Lưu thành công!" : "Thao tác thất bại!");
             buttonHuy_Click(null!, EventArgs.Empty);
@@ -182,17 +182,17 @@ namespace BTL
             if (MessageBox.Show($"Xoá sinh viên {ma}?", "Xác nhận",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                _db.Delete<SinhVien>(ma);
+                db.Delete<SinhVien>(ma);
                 LoadGrid();
             }
         }
 
         private void LoadGrid()
         {
-            string filter = _viewSinhVien?.RowFilter ?? "";
-            _dtSinhVien = _db.GetAll<SinhVien>();
-            _viewSinhVien = new DataView(_dtSinhVien) { RowFilter = filter };
-            dataGridView.DataSource = _viewSinhVien;
+            string filter = viewSV?.RowFilter ?? "";
+            dtSV = db.GetAll<SinhVien>();
+            viewSV = new DataView(dtSV) { RowFilter = filter };
+            dataGridView.DataSource = viewSV;
         }
     }
 }

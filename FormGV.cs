@@ -27,7 +27,7 @@ namespace BTL
         {
             InitializeComponent();
             this.maGV = maGV;
-            diem._maGV = this.maGV;
+            diem.maGV = this.maGV;
             cD.LoadAccount(this.maGV);
             InitializeNavigationButton();
             InitializeNavigationControl();

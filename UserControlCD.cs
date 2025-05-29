@@ -6,9 +6,9 @@ namespace BTL
 {
     public partial class UserControlCD : UserControl
     {
-        private readonly Database _db = new();
-        private string _username = "";
-        private string _origPassword = "";
+        private readonly Database db = new();
+        private string username = "";
+        private string origPassword = "";
 
         public UserControlCD()
         {
@@ -20,19 +20,19 @@ namespace BTL
 
         public void LoadAccount(string maGV)
         {
-            _username = _db.GetDataTable("SELECT Username FROM TaiKhoan WHERE MaGV=@g", ("@g", maGV) ).Rows[0]["Username"].ToString() ?? "";
+            username = db.GetDataTable("SELECT Username FROM TaiKhoan WHERE MaGV=@g", ("@g", maGV) ).Rows[0]["Username"].ToString() ?? "";
 
-            textBoxUsername.Text = _username;
+            textBoxUsername.Text = username;
 
-            var dt = _db.GetDataTable("SELECT Password FROM TaiKhoan WHERE Username=@u", ("@u", _username) );
+            var dt = db.GetDataTable("SELECT Password FROM TaiKhoan WHERE Username=@u", ("@u", username) );
             if (dt.Rows.Count > 0)
             {
-                _origPassword = dt.Rows[0]["Password"].ToString() ?? "";
-                textBoxPassword.Text = _origPassword;
+                origPassword = dt.Rows[0]["Password"].ToString() ?? "";
+                textBoxPassword.Text = origPassword;
             }
             else
             {
-                _origPassword = textBoxPassword.Text = "";
+                origPassword = textBoxPassword.Text = "";
             }
 
             textBoxPassword.Enabled = false;
@@ -60,11 +60,11 @@ namespace BTL
                 return;
             }
 
-            bool ok = _db.UpdatePassword(_username, newPass);
+            bool ok = db.UpdatePassword(username, newPass);
             if (ok)
             {
                 MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _origPassword = newPass;
+                origPassword = newPass;
             }
             else
             {
@@ -79,7 +79,7 @@ namespace BTL
 
         private void ButtonHuy_Click(object? sender, EventArgs e)
         {
-            textBoxPassword.Text = _origPassword;
+            textBoxPassword.Text = origPassword;
             textBoxPassword.Enabled = false;
             buttonXacNhan.Visible = false;
             buttonHuy.Visible = false;

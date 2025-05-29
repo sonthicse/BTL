@@ -7,11 +7,11 @@ namespace BTL
 {
     public partial class UserControlMH : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtMH;
-        private DataView _viewMH;
+        private readonly Database db = new();
+        private DataTable dtMH;
+        private DataView viewMH;
         private enum Mode { View, Add, Edit }
-        private Mode _mode = Mode.View;
+        private Mode mode = Mode.View;
 
         public UserControlMH()
         {
@@ -23,11 +23,11 @@ namespace BTL
         {
             comboBoxKhoa.DisplayMember = "TenKhoa";
             comboBoxKhoa.ValueMember = "MaKhoa";
-            comboBoxKhoa.DataSource = _db.GetAll<Khoa>();
+            comboBoxKhoa.DataSource = db.GetAll<Khoa>();
 
-            _dtMH = _db.GetAll<MonHoc>();
-            _viewMH = _dtMH.DefaultView;
-            dataGridView.DataSource = _viewMH;
+            dtMH = db.GetAll<MonHoc>();
+            viewMH = dtMH.DefaultView;
+            dataGridView.DataSource = viewMH;
             dataGridView.Columns["MaMH"].HeaderText = "Mã môn học";
             dataGridView.Columns["TenMH"].HeaderText = "Tên môn học";
             dataGridView.Columns["TinChi"].HeaderText = "Tín chỉ";
@@ -63,7 +63,7 @@ namespace BTL
             textBoxTC.Text = row["TinChi"].ToString();
             comboBoxKhoa.SelectedValue = row["MaKhoa"]?.ToString() ?? string.Empty;
 
-            var dt = _db.GetGiangVienByMon(row["MaMH"].ToString());
+            var dt = db.GetGiangVienByMon(row["MaMH"].ToString());
 
             dataGridViewGV.SuspendLayout();
             dataGridViewGV.Columns.Clear();
@@ -87,13 +87,13 @@ namespace BTL
         private void buttonSearch_Click(object? s, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewMH.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaMH LIKE '%{kw}%' OR TenMH LIKE '%{kw}%'";
+            viewMH.RowFilter = string.IsNullOrEmpty(kw) ? string.Empty : $"MaMH LIKE '%{kw}%' OR TenMH LIKE '%{kw}%'";
         }
 
         private void ToggleEdit(bool editing)
         {
             textBoxTenMH.Enabled = textBoxTC.Enabled = editing;
-            textBoxMaMH.Enabled = comboBoxKhoa.Enabled = (_mode == Mode.Add);
+            textBoxMaMH.Enabled = comboBoxKhoa.Enabled = (mode == Mode.Add);
             buttonXacNhan.Visible = buttonHuy.Visible = editing;
             buttonThem.Visible = buttonSua.Visible = buttonXoa.Visible = !editing;
             dataGridView.Enabled = !editing;
@@ -110,7 +110,7 @@ namespace BTL
 
         private void buttonThem_Click(object? s, EventArgs e)
         {
-            _mode = Mode.Add;
+            mode = Mode.Add;
             ClearInput();
             ToggleEdit(true);
         }
@@ -118,13 +118,13 @@ namespace BTL
         private void buttonSua_Click(object? s, EventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
-            _mode = Mode.Edit;
+            mode = Mode.Edit;
             ToggleEdit(true);
         }
 
         private void buttonHuy_Click(object? s, EventArgs e)
         {
-            _mode = Mode.View;
+            mode = Mode.View;
             ToggleEdit(false);
             DataGridView_SelectionChanged(null!, EventArgs.Empty);
         }
@@ -135,7 +135,7 @@ namespace BTL
             string ma = textBoxMaMH.Text;
             if (MessageBox.Show($"Xoá môn {ma}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                _db.Delete<MonHoc>(ma);
+                db.Delete<MonHoc>(ma);
                 LoadGrid();
             }
         }
@@ -149,18 +149,18 @@ namespace BTL
                 TinChi = int.TryParse(textBoxTC.Text, out var tc) ? tc : 0,
                 MaKhoa = comboBoxKhoa.SelectedValue?.ToString()
             };
-            if (_mode == Mode.Add)
+            if (mode == Mode.Add)
             {
-                if (_db.Exist<MonHoc>(mh.MaMH))
+                if (db.Exist<MonHoc>(mh.MaMH))
                 {
                     MessageBox.Show("Mã MH trùng!");
                     return;
                 }
-                _db.Insert<MonHoc>(mh);
+                db.Insert<MonHoc>(mh);
             }
-            else if (_mode == Mode.Edit)
+            else if (mode == Mode.Edit)
             {
-                _db.Update<MonHoc>(mh);
+                db.Update<MonHoc>(mh);
             }
             buttonHuy_Click(null!, EventArgs.Empty);
             LoadGrid();
@@ -168,10 +168,10 @@ namespace BTL
 
         private void LoadGrid()
         {
-            string filter = _viewMH.RowFilter;
-            _dtMH = _db.GetAll<MonHoc>();
-            _viewMH = new DataView(_dtMH) { RowFilter = filter };
-            dataGridView.DataSource = _viewMH;
+            string filter = viewMH.RowFilter;
+            dtMH = db.GetAll<MonHoc>();
+            viewMH = new DataView(dtMH) { RowFilter = filter };
+            dataGridView.DataSource = viewMH;
             if (dataGridView.Rows.Count > 0)
                 DataGridView_SelectionChanged(null!, EventArgs.Empty);
         }

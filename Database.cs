@@ -24,8 +24,7 @@ namespace BTL
             try
             {
                 Open();
-                const string sql = @"SELECT * FROM TaiKhoan
-                                     WHERE Username = @u AND Password = @p";
+                const string sql = @"SELECT * FROM TaiKhoan WHERE Username = @u AND Password = @p";
                 using SqliteCommand cmd = new(sql, _conn);
                 cmd.Parameters.AddWithValue("@u", username);
                 cmd.Parameters.AddWithValue("@p", password);

@@ -8,13 +8,13 @@ namespace BTL
 {
     public partial class UserControlDiem : UserControl
     {
-        private readonly Database _db = new();
-        private DataTable _dtSV = new();
-        private DataView _viewSV;
+        private readonly Database db = new();
+        private DataTable dtSV = new();
+        private DataView viewSV;
 
-        public string _maGV = "";
+        public string maGV = "";
 
-        private readonly Dictionary<string, string> _lop_maMH = new();
+        private readonly Dictionary<string, string> lop_maMH = new();
 
         public UserControlDiem()
         {
@@ -24,12 +24,12 @@ namespace BTL
 
         private void UC_Load(object? sender, EventArgs e)
         {
-            var dtLop = _db.GetLopByGiangVien(_maGV);
+            var dtLop = db.GetLopByGiangVien(maGV);
             comboBoxLop.DisplayMember = "TenLop";
             comboBoxLop.ValueMember = "MaLop";
             comboBoxLop.DataSource = dtLop;
             foreach (DataRow r in dtLop.Rows)
-                _lop_maMH[r["MaLop"].ToString()] = r["MaMH"].ToString();
+                lop_maMH[r["MaLop"].ToString()] = r["MaMH"].ToString();
             comboBoxLop.SelectedIndexChanged += comboBoxLop_SelectedIndexChanged;
 
             foreach (var tb in new[] { textBoxDiemCC, textBoxDiemTX, textBoxDiemTHI })
@@ -68,10 +68,10 @@ namespace BTL
         {
             if (comboBoxLop.SelectedValue == null) return;
             string maLop = comboBoxLop.SelectedValue.ToString();
-            string maMH = _lop_maMH[maLop];
-            _dtSV = _db.GetSV_Diem_ByLop(maLop, maMH);
-            _viewSV = _dtSV.DefaultView;
-            dataGridView.DataSource = _viewSV;
+            string maMH = lop_maMH[maLop];
+            dtSV = db.GetSV_Diem_ByLop(maLop, maMH);
+            viewSV = dtSV.DefaultView;
+            dataGridView.DataSource = viewSV;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             dataGridView.Columns["MaSV"].HeaderText = "Mã SV";
@@ -118,7 +118,7 @@ namespace BTL
         private void buttonSearch_Click(object? sender, EventArgs e)
         {
             string kw = textBoxSearch.Text.Replace("'", "''").Trim();
-            _viewSV.RowFilter = string.IsNullOrEmpty(kw)? "": $"MaSV LIKE '%{kw}%' OR TenSV LIKE '%{kw}%'";
+            viewSV.RowFilter = string.IsNullOrEmpty(kw)? "": $"MaSV LIKE '%{kw}%' OR TenSV LIKE '%{kw}%'";
         }
 
         private void ToggleEdit(bool enable)
@@ -144,7 +144,7 @@ namespace BTL
         private void buttonXacNhan_Click(object sender, EventArgs e)
         {
             var maSV = textBoxMaSV.Text.Trim();
-            var maMH = _lop_maMH[comboBoxLop.SelectedValue.ToString()];
+            var maMH = lop_maMH[comboBoxLop.SelectedValue.ToString()];
 
             if (!float.TryParse(textBoxDiemCC.Text, out float diemCC) ||
                 !float.TryParse(textBoxDiemTX.Text, out float diemTX) ||
@@ -167,8 +167,8 @@ namespace BTL
                 DiemHP = diemHP
             };
 
-            bool existed = _db.Exist<Diem>(d.MaSV, d.MaMH);
-            bool ok = existed ? _db.UpdateDiem(d) : _db.Insert<Diem>(d); 
+            bool existed = db.Exist<Diem>(d.MaSV, d.MaMH);
+            bool ok = existed ? db.UpdateDiem(d) : db.Insert<Diem>(d); 
             MessageBox.Show(ok ? "Lưu điểm thành công!" : "Lỗi khi lưu điểm.", "Thông báo", MessageBoxButtons.OK, ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
             comboBoxLop_SelectedIndexChanged(this, EventArgs.Empty);
