@@ -19,7 +19,7 @@ namespace BTL
             Load += UserControlSV_Load;
         }
 
-        private void UserControlSV_Load(object? sender, EventArgs e)
+        public void UserControlSV_Load(object? sender, EventArgs e)
         {
             comboBoxLop.DisplayMember = "TenLop";
             comboBoxLop.ValueMember = "MaLop";

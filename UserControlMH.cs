@@ -19,7 +19,7 @@ namespace BTL
             Load += UserControlMH_Load;
         }
 
-        private void UserControlMH_Load(object? sender, EventArgs e)
+        public void UserControlMH_Load(object? sender, EventArgs e)
         {
             comboBoxKhoa.DisplayMember = "TenKhoa";
             comboBoxKhoa.ValueMember = "MaKhoa";

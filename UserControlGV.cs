@@ -19,7 +19,7 @@ namespace BTL
             Load += UserControlGV_Load;
         }
 
-        private void UserControlGV_Load(object? sender, EventArgs e)
+        public void UserControlGV_Load(object? sender, EventArgs e)
         {
             _dtKhoa = _db.GetAll<Khoa>();
             comboBoxKhoa.DisplayMember = "TenKhoa";

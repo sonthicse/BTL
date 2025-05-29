@@ -16,7 +16,7 @@ namespace BTL
             Load += UserControlLH_Load;
         }
 
-        private void UserControlLH_Load(object? sender, EventArgs e)
+        public void UserControlLH_Load(object? sender, EventArgs e)
         {
             _dtLop = _db.GetAll<Lop>();
             _viewLop = _dtLop.DefaultView;
@@ -37,8 +37,6 @@ namespace BTL
             dataGridView.Columns["TenLop"].FillWeight = 70;
 
             textBoxSearch.TextChanged += buttonSearch_Click;
-
-            buttonMH.Click += buttonMH_Click;
 
             if (dataGridView.Rows.Count > 0)
                 DataGridView_SelectionChanged(null, EventArgs.Empty);

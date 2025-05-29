@@ -18,7 +18,7 @@ namespace BTL
             Load += UserControlTK_Load;
         }
 
-        private void UserControlTK_Load(object? sender, EventArgs e)
+        public void UserControlTK_Load(object? sender, EventArgs e)
         {
             LoadGrid();
             dataGridView.SelectionChanged += DataGridView_SelectionChanged;

@@ -18,7 +18,7 @@ namespace BTL
             Load += UserControlKhoa_Load;
         }
 
-        private void UserControlKhoa_Load(object? sender, EventArgs e)
+        public void UserControlKhoa_Load(object? sender, EventArgs e)
         {
             _dt = _db.GetAll<Khoa>();
             _view = _dt.DefaultView;
